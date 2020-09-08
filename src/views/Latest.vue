@@ -1,13 +1,15 @@
 <template>
-  <div id="app">
-   <router-view></router-view>
+  <div class="laest">
+    latest-music
   </div>
 </template>
 
 <script>
 export default {
+
 }
 </script>
 
-<style lang="less">
+<style>
+
 </style>
