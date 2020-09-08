@@ -1,7 +1,7 @@
 <template>
   <div class="avatar">
     <el-avatar :src="avatarSrc"></el-avatar>
-    <el-dropdown v-if="false">
+    <el-dropdown v-if="true">
       <span class="el-dropdown-link">
         <span class="username">{{ username }}</span>
         <i class="el-icon-arrow-down el-icon--right"></i>
@@ -18,9 +18,9 @@
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <div v-else>
+    <!-- <div v-else> -->
       <router-link to="/login">去登录</router-link>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       avatarSrc: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-      username: '请登录'
+      username: '还没有登录'
     }
   }
 }

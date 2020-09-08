@@ -1,12 +1,13 @@
 <template>
   <div class="log-wrapper">
-    <login-form @login="login" />
+    <login-form @login="login" @register="register" />
   </div>
 </template>
 
 <script>
 import LoginForm from '@/components/form/Index'
 import api from '@/api'
+import { SET_UID, SET_NICKNAME } from '../store/mutation-types'
 export default {
   components: {
     LoginForm
@@ -16,13 +17,39 @@ export default {
       if (!username || !password) return
       // eslint-disable-next-line handle-callback-err
       api.login(username, password).then(data => {
-        console.log(data)
+        if (data.code === 200) {
+          const { account: { id }, token, cookie, profile: { nickname } } = data
+          this.$store.commit(SET_UID, id)
+          this.$store.commit(SET_NICKNAME, nickname)
+          document.cookie = cookie
+          window.localStorage.setItem('token', token)
+          window.localStorage.setItem('account', username)
+          window.localStorage.setItem('password', password)
+          this.$message.success('登录成功')
+          setTimeout(() => {
+            this.$router.replace('/')
+          }, 1500)
+        } else {
+          this.$message.error(data.msg)
+        }
       },
       // eslint-disable-next-line handle-callback-err
       err => {
-        alert('网络出错了')
+        this.$message.error('出了点问题，刷新后重试吧')
+      })
+    },
+    register () {
+      this.$notify.warning({
+        title: '提示',
+        message: '注册功能暂未实现'
       })
     }
+  },
+  mounted () {
+    this.$notify.info({
+      title: '提示',
+      message: '注册功能暂未实现'
+    })
   }
 }
 </script>

@@ -7,17 +7,19 @@
   >
     <apple-btn :showBtn="showBtn" :pos="applePos" />
     <div class="title">{{ title }}</div>
-    <div class="input">
-      <input type="text" :placeholder="textPlaceholder" v-model="username" />
-    </div>
-    <div class="input">
-      <input type="password" :placeholder="pswPlaceholder" v-model="password" />
-    </div>
-    <div class="btn">
-      <button @click="$emit('submit', { username, password })">
-        {{ buttonText }}
-      </button>
-    </div>
+    <form action="">
+      <div class="input">
+        <input type="text" :placeholder="textPlaceholder" v-model="username" />
+      </div>
+      <div class="input">
+        <input type="password" :placeholder="pswPlaceholder" v-model="password" />
+      </div>
+      <div class="btn">
+        <button @click.prevent="$emit('submit', { username, password })">
+          {{ buttonText }}
+        </button>
+      </div>
+    </form>
     <div class="change-box">
       <div class="change-btn" @click="$emit('change', type)">
         {{ changeText }}

@@ -1,7 +1,7 @@
 <template>
   <nav class="nav-bar">
     <div class="logo" @click="toHome">
-        logo 占位
+      logo 占位
     </div>
     <item v-for="item in optionList" :key="item.title" :route="item.route">
       {{ item.title }}
@@ -64,6 +64,7 @@ export default {
   align-items: center;
   width: 1380px;
   margin: 0 auto;
+  background-color: #fff;
 
   .logo {
     margin-right: 50px;

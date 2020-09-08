@@ -14,23 +14,23 @@ const routes = [
       {
         path: '/recommend',
         name: 'firstShow',
-        component: () => import('@/views/Recommend')
+        component: () => import('@/views/Home/Recommend')
       },
       {
         path: '/song-list',
-        component: () => import('@/views/SongList')
+        component: () => import('@/views/Home/SongList')
       },
       {
         path: '/rank',
-        component: () => import('@/views/Rank')
+        component: () => import('@/views/Home/Rank')
       },
       {
         path: '/singers',
-        component: () => import('@/views/Singers')
+        component: () => import('@/views/Home/Singers')
       },
       {
         path: '/latest-music',
-        component: () => import('@/views/Latest')
+        component: () => import('@/views/Home/Latest')
       }
     ]
   },
