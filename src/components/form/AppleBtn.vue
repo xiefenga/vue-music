@@ -1,5 +1,5 @@
 <template>
-  <div class="apple-btn login-apple" :class="{ show: showBtn }">
+  <div class="apple-btn login-apple" :class="{ show: showBtn, right: position }">
     <li v-for="btn in appleBtn" :key="btn" :class="btn"></li>
   </div>
 </template>
@@ -11,6 +11,15 @@ export default {
     showBtn: {
       type: Boolean,
       required: true
+    },
+    pos: {
+      type: String,
+      default: 'left'
+    }
+  },
+  computed: {
+    position () {
+      return this.pos === 'right'
     }
   },
   data () {
@@ -30,7 +39,9 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-
+  &.right {
+    margin-left: auto;
+  }
   &.show li {
     transform: translateY(0);
     opacity: 1;

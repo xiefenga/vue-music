@@ -1,6 +1,9 @@
 <template>
   <div class="form-container">
-    <transition>
+    <transition
+    :enter-class="enter"
+    :leave-to-class="leaveTo"
+    >
       <login
         v-if="type == 'login'"
         @change="handelChange"
@@ -49,6 +52,14 @@ export default {
         this.$emit('register', data)
       }
     }
+  },
+  computed: {
+    enter () {
+      return this.type === 'login' ? 'login-enter' : 'sign-enter'
+    },
+    leaveTo () {
+      return this.type === 'login' ? 'login-leave-to' : 'sign-leave-to'
+    }
   }
 }
 </script>
@@ -63,11 +74,24 @@ export default {
   overflow: hidden;
 }
 
-.v-enter {
+.sign-enter {
   transform: rotate(90deg);
 }
 
-.v-leave {
+.login-enter {
+  transform: rotate(-90deg);
+}
+
+.login-leave-to {
+  transform: rotate(90deg);
+}
+
+.sign-leave-to {
+  transform: rotate(-90deg);
+}
+
+.v-leave,
+.v-enter-to {
   transform: rotate(0deg);
 }
 
@@ -76,11 +100,4 @@ export default {
   transition: 0.5s ease-in-out;
 }
 
-.v-enter-to {
-  transform: rotate(0deg);
-}
-
-.v-leave-to {
-  transform: rotate(-90deg);
-}
 </style>

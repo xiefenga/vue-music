@@ -5,7 +5,7 @@
     @mouseenter="showBtn = true"
     @mouseleave="showBtn = false"
   >
-    <apple-btn :showBtn="showBtn" />
+    <apple-btn :showBtn="showBtn" :pos="applePos" />
     <div class="title">{{ title }}</div>
     <div class="input">
       <input type="text" :placeholder="textPlaceholder" v-model="username" />
@@ -68,10 +68,17 @@ export default {
   },
   computed: {
     formType () {
-      if (this.type == 'login') {
+      if (this.type === 'login') {
         return 'login-box'
       }
       return 'sign-box'
+    },
+    applePos () {
+      if (this.type === 'login') {
+        return 'left'
+      } else {
+        return 'right'
+      }
     }
   }
 }
