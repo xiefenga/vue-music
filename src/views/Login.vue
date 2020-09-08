@@ -7,7 +7,7 @@
 <script>
 import LoginForm from '@/components/form/Index'
 import api from '@/api'
-import { SET_UID, SET_NICKNAME } from '../store/mutation-types'
+import { SET_UID, SET_NICKNAME, SET_AVARTAR } from '../store/mutation-types'
 export default {
   components: {
     LoginForm
@@ -18,9 +18,10 @@ export default {
       // eslint-disable-next-line handle-callback-err
       api.login(username, password).then(data => {
         if (data.code === 200) {
-          const { account: { id }, token, cookie, profile: { nickname } } = data
+          const { account: { id }, token, cookie, profile: { nickname, avatarUrl } } = data
           this.$store.commit(SET_UID, id)
           this.$store.commit(SET_NICKNAME, nickname)
+          this.$store.commit(SET_AVARTAR, avatarUrl)
           document.cookie = cookie
           window.localStorage.setItem('token', token)
           window.localStorage.setItem('account', username)

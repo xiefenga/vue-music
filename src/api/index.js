@@ -11,6 +11,9 @@ const api = {
   },
   getPlaylist (uid) {
     return axios.get(`/user/playlist?uid=${uid}`)
+  },
+  getLoginStatus () {
+    return axios.get('/login/status')
   }
 }
 
