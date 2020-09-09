@@ -18,7 +18,7 @@ export default {
 <style lang="less" scoped>
   a {
     display: block;
-    min-width: 64px;
+    min-width: 70px;
     text-align: center;
   }
   .router-link-exact-active {

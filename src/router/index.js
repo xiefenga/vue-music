@@ -31,6 +31,11 @@ const routes = [
       {
         path: '/latest-music',
         component: () => import('@/views/Home/Latest')
+      },
+      {
+        path: '/playlist',
+        props: { id: true },
+        component: () => import('@/views/PlayList/PlayList')
       }
     ]
   },

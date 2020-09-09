@@ -1,7 +1,7 @@
 <template>
-  <div class="avatar">
-    <el-avatar v-if="user.avatarUrl" :src="user.avatarUrl"></el-avatar>
-    <el-dropdown v-if="user.avatarUrl" @command="handleCommand">
+  <div class="avatar" v-if="user.uid">
+    <el-avatar :src="user.avatarUrl"></el-avatar>
+    <el-dropdown @command="handleCommand">
       <span class="el-dropdown-link">
         <span class="username">{{ user.nickname }}</span>
         <i class="el-icon-arrow-down el-icon--right"></i>
@@ -18,12 +18,6 @@
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <div v-else>
-      <span>还没有登录，</span>
-      <router-link to="/login">
-        <el-button type="text">去登录</el-button>
-      </router-link>
-    </div>
   </div>
 </template>
 

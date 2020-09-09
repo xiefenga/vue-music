@@ -26,6 +26,8 @@ export default {
           window.localStorage.setItem('token', token)
           window.localStorage.setItem('account', username)
           window.localStorage.setItem('password', password)
+          window.localStorage.setItem('login', true)
+          window.localStorage.setItem('uid', id)
           this.$message.success('登录成功')
           setTimeout(() => {
             this.$router.replace('/')

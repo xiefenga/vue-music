@@ -64,11 +64,13 @@ export default {
   align-items: center;
   width: 1380px;
   margin: 0 auto;
-  background-color: #fff;
 
   .logo {
-    margin-right: 50px;
     cursor: pointer;
+    width: 200px;
+    margin-right: 20px;
+    box-sizing: border-box;
+    text-align: center;
   }
 }
 </style>

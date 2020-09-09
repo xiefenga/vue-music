@@ -1,37 +1,38 @@
 <template>
-  <el-container>
-    <el-header>
+  <div class="main">
+    <header>
       <nav-bar />
-    </el-header>
-    <el-container>
-      <el-aside>aside</el-aside>
-      <el-container>
-        <el-main class="main">
-          <transition appear mode="out-in">
-            <router-view></router-view>
-          </transition>
-        </el-main>
-        <!-- <el-footer>Footer</el-footer> -->
-      </el-container>
-    </el-container>
-  </el-container>
+    </header>
+    <aside>
+      <aside-content />
+    </aside>
+    <div class="content">
+      <transition>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </transition>
+      <footer v-if="false">footer</footer>
+    </div>
+  </div>
 </template>
 
 <script>
 import NavBar from '@/components/header/NavBar'
+import AsideContent from '../components/aside/Aside'
 import { SET_UID, SET_NICKNAME, SET_AVARTAR } from '@/store/mutation-types'
 import api from '@/api'
 export default {
   components: {
-    NavBar
+    NavBar,
+    AsideContent
   },
   methods: {
     detectLoginStatus () {
       const { $store: { state: { user: { uid } } } } = this
-      if (!window.localStorage.getItem('account')) return
+      if (!window.localStorage.getItem('login')) return
       if (uid === '') {
         api.getLoginStatus().then(data => {
-          console.log(data)
           const { profile: { nickname, userId, avatarUrl } } = data
           this.$store.commit(SET_UID, userId)
           this.$store.commit(SET_NICKNAME, nickname)
@@ -48,15 +49,13 @@ export default {
             document.cookie = cookie
             window.localStorage.setItem('token', token)
           })
-          console.log('重新登录')
         })
-      } else {
-        console.log('已登录')
       }
     }
   },
   created () {
     this.detectLoginStatus()
+    console.log('home create')
   }
 }
 </script>
@@ -64,7 +63,42 @@ export default {
 <style lang="less">
 
 .main {
-  overflow: hidden!important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 60px;
+    width: 100%;
+    background-color: #EBEEF5;
+  }
+
+  aside {
+    position: absolute;
+    left: 0;
+    top: 60px;
+    width: 300px;
+    height: calc(100% - 60px);
+    overflow-y: auto;
+  }
+
+  .content {
+    position: absolute;
+    left: 300px;
+    top: 60px;
+    width: calc(100% - 300px);
+    height: calc(100% - 60px);
+    box-sizing: border-box;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    div {
+      width: 100%;
+      position: absolute;
+    }
+  }
 }
 
 .v-enter {
