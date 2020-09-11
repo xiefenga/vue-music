@@ -34,6 +34,7 @@ export default {
     api.getPlaylists(uid).then(data => {
       data.playlist.forEach(item => {
         const { userId, coverImgUrl, id, name } = item
+        // eslint-disable-next-line eqeqeq
         if (userId == uid) {
           this.createdList.push({
             coverImgUrl,

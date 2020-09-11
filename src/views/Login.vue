@@ -14,7 +14,10 @@ export default {
   },
   methods: {
     login ({ username, password }) {
-      if (!username || !password) return
+      if (!username || !password) {
+        this.$message.warning('请输入完整的手机号和密码')
+        return
+      }
       // eslint-disable-next-line handle-callback-err
       api.login(username, password).then(data => {
         if (data.code === 200) {

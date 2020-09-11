@@ -37,6 +37,7 @@ export default {
           this.$store.commit(SET_UID, userId)
           this.$store.commit(SET_NICKNAME, nickname)
           this.$store.commit(SET_AVARTAR, avatarUrl)
+          console.log('已经登陆')
         // eslint-disable-next-line handle-callback-err
         }).catch(err => {
           const account = window.localStorage.getItem('account')
@@ -49,6 +50,7 @@ export default {
             document.cookie = cookie
             window.localStorage.setItem('token', token)
           })
+          console.log('重新登录')
         })
       }
     }
@@ -60,8 +62,7 @@ export default {
 }
 </script>
 
-<style lang="less">
-
+<style lang="less" scoped>
 .main {
   position: fixed;
   width: 100%;
@@ -94,7 +95,7 @@ export default {
     padding: 20px;
     overflow-x: hidden;
     overflow-y: auto;
-    div {
+    > div {
       width: 100%;
       position: absolute;
     }

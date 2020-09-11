@@ -34,7 +34,7 @@ const routes = [
       },
       {
         path: '/playlist',
-        props: { id: true },
+        // props: { id: true },
         component: () => import('@/views/PlayList/PlayList')
       }
     ]
