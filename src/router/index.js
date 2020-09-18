@@ -34,8 +34,15 @@ const routes = [
       },
       {
         path: '/playlist',
-        // props: { id: true },
         component: () => import('@/views/PlayList/PlayList')
+      },
+      {
+        path: '/daily-rec',
+        component: () => import('@/views/PlayList/DailyRec')
+      },
+      {
+        path: '/search',
+        component: () => import('@/views/search/Search')
       }
     ]
   },
@@ -47,9 +54,14 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
 })
+// router.beforeEach((to, from, next) => {
+//   next()
+//   const c = document.querySelector('.content')
+//   c && c.scrollTo(0, 0)
+// })
 
 export default router

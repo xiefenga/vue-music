@@ -17,20 +17,20 @@
 
 <script>
 import PlayList from './PlayList'
-import api from '@/api';
+import api from '@/api'
 export default {
   components: {
     PlayList
   },
   computed: {
     loginStatus () {
-      return Boolean(window.localStorage.getItem('login'))
+      return Boolean(window.localStorage.getItem('userInfo'))
     }
   },
   created () {
-    // const { $store: { state: { user: { uid } } } } = this
-    const uid = window.localStorage.getItem('uid')
-    if (uid == null) return
+    const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+    if (!userInfo) return
+    const { uid } = userInfo
     api.getPlaylists(uid).then(data => {
       data.playlist.forEach(item => {
         const { userId, coverImgUrl, id, name } = item

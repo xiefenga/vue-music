@@ -1,16 +1,20 @@
 <template>
   <div class="log-wrapper">
     <login-form @login="login" @register="register" />
+    <footer-info></footer-info>
   </div>
 </template>
 
 <script>
+import FooterInfo from '@/components/footer/Index';
 import LoginForm from '@/components/form/Index'
+import { ON_LINE } from '@/store/mutation-types'
+import { handleLoginData } from '@/util/login'
 import api from '@/api'
-import { SET_UID, SET_NICKNAME, SET_AVARTAR } from '../store/mutation-types'
 export default {
   components: {
-    LoginForm
+    LoginForm,
+    FooterInfo
   },
   methods: {
     login ({ username, password }) {
@@ -21,16 +25,8 @@ export default {
       // eslint-disable-next-line handle-callback-err
       api.login(username, password).then(data => {
         if (data.code === 200) {
-          const { account: { id }, token, cookie, profile: { nickname, avatarUrl } } = data
-          this.$store.commit(SET_UID, id)
-          this.$store.commit(SET_NICKNAME, nickname)
-          this.$store.commit(SET_AVARTAR, avatarUrl)
-          document.cookie = cookie
-          window.localStorage.setItem('token', token)
-          window.localStorage.setItem('account', username)
-          window.localStorage.setItem('password', password)
-          window.localStorage.setItem('login', true)
-          window.localStorage.setItem('uid', id)
+          handleLoginData(data, username, password)
+          this.$store.commit(ON_LINE)
           this.$message.success('登录成功')
           setTimeout(() => {
             this.$router.replace('/')
@@ -71,5 +67,11 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    footer {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 </style>

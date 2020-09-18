@@ -18,8 +18,9 @@ export default {
 <style lang="less" scoped>
   a {
     display: block;
-    min-width: 70px;
-    text-align: center;
+    // min-width: 50px;
+    // text-align: center;
+    padding: 0 10px;
   }
   .router-link-exact-active {
     position: relative;

@@ -1,5 +1,5 @@
 <template>
-  <div class="avatar" v-if="user.uid">
+  <div class="avatar" v-if="login">
     <el-avatar :src="user.avatarUrl"></el-avatar>
     <el-dropdown @command="handleCommand">
       <span class="el-dropdown-link">
@@ -22,16 +22,29 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { OFF_LINE } from '@/store/mutation-types'
+import api from '@/api'
 export default {
   data () {
     return {
+      user: {
+        avatarUrl: '',
+        nickname: ''
+      },
+      login: false
     }
   },
   methods: {
     logout () {
+      api.logout().then(data => {
+        console.log(data)
+      })
       window.localStorage.clear()
+      this.$store.commit(OFF_LINE)
       this.$message.success('已成功退出')
+      if (this.$route.name !== 'firstShow') {
+        this.$router.replace('/')
+      }
       window.location.reload()
     },
     handleCommand (command) {
@@ -40,8 +53,16 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapState(['user'])
+  created () {
+    const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.login = Boolean(userInfo)
+    if (this.login) {
+      const { nickname, avatarUrl } = userInfo
+      this.user = {
+        nickname,
+        avatarUrl
+      }
+    }
   }
 }
 </script>

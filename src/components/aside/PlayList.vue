@@ -1,10 +1,11 @@
 <template>
-  <dl class="list-item">
+  <dl class="list-item" v-if="lists.length">
     <dt class="title">{{ title }}</dt>
     <dd class="item" v-for="item in lists" :key="item.id">
       <list-item :imgSrc="item.coverImgUrl" :name="item.name" :id="item.id" />
     </dd>
   </dl>
+  <dl v-else>你没有{{ title.slice(1) }}</dl>
 </template>
 
 <script>

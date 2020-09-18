@@ -12,52 +12,55 @@
           <router-view></router-view>
         </keep-alive>
       </transition>
-      <footer v-if="false">footer</footer>
+      <el-backtop target=".content" :bottom="100" :visibility-height="200"></el-backtop>
     </div>
+    <audio-player></audio-player>
   </div>
 </template>
 
 <script>
+import AudioPlayer from '../components/audio-player/Index'
 import NavBar from '@/components/header/NavBar'
-import AsideContent from '../components/aside/Aside'
-import { SET_UID, SET_NICKNAME, SET_AVARTAR } from '@/store/mutation-types'
+import AsideContent from '@/components/aside/Aside'
+import { ON_LINE } from '@/store/mutation-types'
+import { handleLoginData } from '@/util/login'
 import api from '@/api'
 export default {
   components: {
     NavBar,
-    AsideContent
+    AsideContent,
+    AudioPlayer
   },
   methods: {
     detectLoginStatus () {
-      const { $store: { state: { user: { uid } } } } = this
-      if (!window.localStorage.getItem('login')) return
-      if (uid === '') {
+      const { $store: { online } } = this
+      // 未登录直接返回
+      if (!window.localStorage.getItem('userInfo')) return
+      if (!online) { // 已经登陆但不是跳转过来的
+        // 检查登录状态是否过期
         api.getLoginStatus().then(data => {
-          const { profile: { nickname, userId, avatarUrl } } = data
-          this.$store.commit(SET_UID, userId)
-          this.$store.commit(SET_NICKNAME, nickname)
-          this.$store.commit(SET_AVARTAR, avatarUrl)
-          console.log('已经登陆')
+          this.$store.commit(ON_LINE)
         // eslint-disable-next-line handle-callback-err
-        }).catch(err => {
-          const account = window.localStorage.getItem('account')
-          const password = window.localStorage.getItem('password')
+        }).catch(err => { // 登录状态在服务器已经过期，重新登录
+          const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+          const { account, password } = userInfo
           api.login(account, password).then(data => {
-            const { account: { id }, token, cookie, profile: { nickname, avatarUrl } } = data
-            this.$store.commit(SET_UID, id)
-            this.$store.commit(SET_NICKNAME, nickname)
-            this.$store.commit(SET_AVARTAR, avatarUrl)
-            document.cookie = cookie
-            window.localStorage.setItem('token', token)
+            if (data.code === 200) {
+              handleLoginData(data, account, password)
+              this.$store.commit(ON_LINE)
+            } else {
+              this.$message.error(data.msg)
+            }
+          // eslint-disable-next-line handle-callback-err
+          }).catch(err => {
+            this.$message.error('出了点问题，刷新后重试吧')
           })
-          console.log('重新登录')
         })
       }
     }
   },
   created () {
     this.detectLoginStatus()
-    console.log('home create')
   }
 }
 </script>
@@ -81,7 +84,7 @@ export default {
     left: 0;
     top: 60px;
     width: 300px;
-    height: calc(100% - 60px);
+    height: calc(100% - 60px - 100px);
     overflow-y: auto;
   }
 
@@ -90,15 +93,33 @@ export default {
     left: 300px;
     top: 60px;
     width: calc(100% - 300px);
-    height: calc(100% - 60px);
+    height: calc(100% - 60px - 100px);
     box-sizing: border-box;
+    overflow: hidden;
     padding: 20px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    > div {
-      width: 100%;
+    & > div:not(.el-backtop) {
       position: absolute;
+      width: calc(100% - 40px);
+      height: calc(100% - 40px);
+      box-sizing: border-box;
+      padding: 0 50px 30px;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
+    .el-backtop {
+      position: fixed;
+      width: 50px;
+      height: 50px;
+      opacity: .8;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+  .audio-player {
+    position: fixed;
+    width: 100%;
+    bottom: 10px;
   }
 }
 
@@ -112,7 +133,7 @@ export default {
 
 .v-enter-active,
 .v-leave-active {
-  transition: .3s;
+  transition: .5s;
 }
 
 .v-enter-to {

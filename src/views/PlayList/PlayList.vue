@@ -7,16 +7,21 @@
       :description="description"
       :trackCount="trackCount"
       :playCount="playCount"
+      :key="id + 'top'"
+      :tracks="tracks"
     />
+    <playlist-content :tracks="tracks" />
   </div>
 </template>
 
 <script>
 import TopInfo from '@/components/playlist/TopInfo'
+import PlaylistContent from '@/components/playlist/Content'
 import api from '@/api'
 export default {
   components: {
-    TopInfo
+    TopInfo,
+    PlaylistContent
   },
   data () {
     return {
@@ -26,13 +31,14 @@ export default {
       trackCount: '', // 歌曲数
       name: '',
       description: '', // 描述
-      tags: [], // 标签
+      // tags: [], // 标签
       createTime: '', // 创建时间
       creator: {
         nickname: '',
         avatarUrl: '',
         userId: ''
-      }
+      },
+      tracks: []
     }
   },
   computed: {
@@ -43,19 +49,33 @@ export default {
         const {
           playlist: {
             creator: { nickname, userId, avatarUrl },
-            tracks, trackIds, coverImgUrl, playCount, trackCount, name, description, tags, createTime
+            // eslint-disable-next-line no-unused-vars
+            tracks, coverImgUrl, playCount, trackCount, name, description, tags, createTime
           }
         } = data
-        setTimeout(() => {
-          this.coverImgUrl = coverImgUrl
-          this.creator = { nickname, userId, avatarUrl }
-          this.name = name
-          this.description = description
-          this.createTime = createTime
-          this.playCount = playCount
-          this.trackCount = trackCount
-          this.tags = tags
-        }, 0)
+        this.coverImgUrl = coverImgUrl
+        this.creator = { nickname, userId, avatarUrl }
+        this.name = name
+        this.description = description
+        this.createTime = createTime
+        this.playCount = playCount
+        this.trackCount = trackCount
+        // this.tags = tags
+        this.tracks = []
+        tracks.forEach(item => {
+          const { id, name, ar: ars, al, dt } = item
+          const ar = ars.map(item => item.name)
+          this.tracks.push({
+            id,
+            name,
+            al: {
+              name: al.name,
+              picUrl: al.picUrl
+            },
+            ar,
+            dt
+          })
+        })
       })
     },
     updatePlaylistInfo () {
@@ -73,9 +93,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less" scoped>
-  .playlist {
-    padding: 10px 0 0 50px;
-  }
-</style>

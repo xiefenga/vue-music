@@ -27,10 +27,11 @@ export default {
         {
           title: '个性推荐',
           route: '/recommend'
-        }, {
-          title: '歌单',
-          route: '/song-list'
         },
+        // {
+        //   title: '歌单',
+        //   route: '/song-list'
+        // },
         {
           title: '排行榜',
           route: '/rank'
