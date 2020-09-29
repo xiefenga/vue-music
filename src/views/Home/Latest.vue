@@ -11,6 +11,7 @@
         <latest-content v-loading="!songs.length" :tracks="songs" />
       </el-tab-pane>
     </el-tabs>
+    <el-backtop target=".latest" :bottom="120"></el-backtop>
   </div>
 </template>
 

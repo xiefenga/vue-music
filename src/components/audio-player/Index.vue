@@ -47,15 +47,17 @@
         </div>
       </div>
       <div class="icons">
-        <div class="mode item" @click="$message('切换播放模式功能暂未实现')">
-          <i class="el-icon-crop"></i>
+        <div class="item" @click="changeMode">
+          <i :class="{'el-icon-refresh-right': mode == 1, 'el-icon-sort': mode == 0, 'el-icon-finished': mode == 2}"></i>
         </div>
-        <div class="lyric item">
+        <el-popover class="item" placement="top" trigger="click" width="350">
+          <lyric :lyric="lyric" :curTime="cur" />
           <i
+            slot="reference"
             class="el-icon-notebook-2"
-            @click="$message('歌词功能暂未实现')"
+            @click="getLyric"
           ></i>
-        </div>
+        </el-popover>
         <el-popover class="item" placement="top" trigger="click" width="350">
           <play-list />
           <i slot="reference" class="el-icon-s-operation"></i>
@@ -66,14 +68,16 @@
 </template>
 
 <script>
+import Lyric from './Lyric'
 import PlayList from './PlayList'
-import { PLAY, PAUSE, NEXT_MUSIC, PUT_TRACKS, SET_INDEX } from '@/store/mutation-types'
+import { PLAY, PAUSE, NEXT_MUSIC, PUT_TRACKS, SET_INDEX, CHANGEMODE } from '@/store/mutation-types'
 import { mapState } from 'vuex'
 import api from '@/api'
 export default {
   name: 'AudioPlayer',
   components: {
-    PlayList
+    PlayList,
+    Lyric
   },
   data () {
     return {
@@ -88,7 +92,9 @@ export default {
       audio: null,
       total: 0,
       cur: 0,
-      tmpVolum: 0
+      tmpVolum: 0,
+      id: '',
+      lyric: ''
     }
   },
   computed: {
@@ -98,9 +104,17 @@ export default {
     curTime () {
       return Math.floor(this.cur / 60) + ':' + (this.cur % 60 / 100).toFixed(2).slice(-2)
     },
-    ...mapState(['playing'])
+    ...mapState(['playing', 'mode'])
   },
   methods: {
+    changeMode () {
+      this.$store.commit(CHANGEMODE)
+    },
+    getLyric () {
+      if (this.lyric) return
+      api.getLyric(this.id).then(res => { this.lyric = res.lrc.lyric })
+      // .then(() => console.log(this.lyric))
+    },
     muted () {
       if (!this.isMuted) {
         this.tmpVolum = this.volume
@@ -135,6 +149,7 @@ export default {
       this.$store.commit(PAUSE)
     },
     initPlayer (id) {
+      this.id = id
       api.getMusicUrl(id).then(data => {
         const url = data.data[0].url
         this.musicUrl = url
@@ -180,6 +195,7 @@ export default {
       this.title = name
       this.singer = ar.join(' / ')
       this.avatarUrl = al.picUrl
+      api.getLyric(this.id).then(res => { this.lyric = res.lrc.lyric }).then(() => console.log(this.lyric))
     }
   },
   mounted () {
@@ -202,6 +218,7 @@ export default {
   border-radius: 20px;
   display: flex;
   background-color: #eee;
+  user-select: none;
 
   .cover-img,
   .controls,

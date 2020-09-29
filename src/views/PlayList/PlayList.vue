@@ -11,6 +11,7 @@
       :tracks="tracks"
     />
     <playlist-content :tracks="tracks" />
+    <el-backtop target=".playlist" :bottom="120"></el-backtop>
   </div>
 </template>
 

@@ -6,11 +6,16 @@
       <filter-cmp type="name" @click="getfilterW" :options="name" />
     </div>
     <ul class="singers-wrapper" v-infinite-scroll="getMore" v-loading="!singers.length">
-      <li class="singer" v-for="item in singers" :key="item.accountId" @click="$message('歌手详情还未完成')">
-        <el-image fit="cover" :src="item.picUrl" scroll-container=".singers-wrapper" lazy></el-image>
+      <li class="singer" v-for="(item, i) in singers" :key="item.accountId" @click="$message('歌手详情还未完成')">
+        <el-image fit="cover" :src="item['picUrl' + i]" scroll-container=".singers-wrapper" lazy>
+          <div slot="error" class="image-slot">
+            <i class="el-icon-picture-outline"></i>
+          </div>
+        </el-image>
         <div class="name">{{ item.name }}</div>
       </li>
     </ul>
+    <el-backtop target=".singers-wrapper" :bottom="120"></el-backtop>
   </div>
 </template>
 
@@ -225,10 +230,11 @@ export default {
     }
   },
   mounted () {
-    this.$message('该页面资源过多可能有些许卡顿')
-    setTimeout(() => {
-      this.getSingers()
-    }, 5000)
+    this.$notify.warning({
+      title: '提示',
+      message: '防止浏览器卡顿，歌手图片未展示'
+    })
+    this.getSingers()
   },
   watch: {
     'filterW.area': {
@@ -252,6 +258,7 @@ export default {
 
 <style lang="less" scoped>
 .singers {
+  overflow: hidden!important;
   .filter-wrapper {
     padding: 10px 0;
   }
@@ -271,6 +278,18 @@ export default {
         width: 80px;
         height: 80px;
         border-radius: 50%;
+        /deep/ .image-slot {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #f5f7fa;
+          // font-size: 12px;
+          i {
+            font-size: 30px;
+          }
+        }
       }
       .name {
         font-weight: 700;

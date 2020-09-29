@@ -2,6 +2,7 @@
   <div class="rank">
     <rank-list v-loading="!list1.length" :list="list1" />
     <rank-list v-loading="!list2.length" title="全球榜" :list="list2" />
+    <el-backtop target=".rank" :bottom="120"></el-backtop>
   </div>
 </template>
 
@@ -31,5 +32,4 @@ export default {
     })
   }
 }
-
 </script>

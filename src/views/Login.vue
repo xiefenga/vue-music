@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import FooterInfo from '@/components/footer/Index';
+import FooterInfo from '@/components/footer/Index'
 import LoginForm from '@/components/form/Index'
 import { ON_LINE } from '@/store/mutation-types'
 import { handleLoginData } from '@/util/login'
@@ -46,12 +46,6 @@ export default {
         message: '注册功能暂未实现'
       })
     }
-  },
-  mounted () {
-    this.$notify.info({
-      title: '提示',
-      message: '注册功能暂未实现'
-    })
   }
 }
 </script>

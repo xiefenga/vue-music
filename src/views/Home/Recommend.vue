@@ -3,11 +3,11 @@
     <carousel />
     <daily-rec />
     <rec-list />
+    <el-backtop target=".recommend" :bottom="120"></el-backtop>
   </div>
 </template>
 
 <script>
-// import api from '@/api'
 import Carousel from '@/components/recommend/Carousel'
 import RecList from '@/components/recommend/RecommendList'
 import DailyRec from '@/components/recommend/DailyRec'
@@ -16,12 +16,6 @@ export default {
     Carousel,
     RecList,
     DailyRec
-  },
-  data () {
-    return {
-    }
-  },
-  created () {
   }
 }
 </script>

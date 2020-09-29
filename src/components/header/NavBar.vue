@@ -1,7 +1,7 @@
 <template>
   <nav class="nav-bar">
     <div class="logo" @click="toHome">
-      logo 占位
+      <logo />
     </div>
     <item v-for="item in optionList" :key="item.title" :route="item.route">
       {{ item.title }}
@@ -15,11 +15,13 @@
 import Item from './Item'
 import SearchBox from './Search'
 import Avatar from './Avatar'
+import Logo from './Logo'
 export default {
   components: {
     Item,
     SearchBox,
-    Avatar
+    Avatar,
+    Logo
   },
   data () {
     return {

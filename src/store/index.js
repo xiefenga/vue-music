@@ -1,6 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { ON_LINE, OFF_LINE, PLAY, PAUSE, SET_MUSIC, PUT_TRACKS, ADD_MUSIC, NEXT_MUSIC, SET_INDEX } from './mutation-types'
+import {
+  ON_LINE,
+  OFF_LINE,
+  PLAY,
+  PAUSE,
+  SET_MUSIC,
+  PUT_TRACKS,
+  ADD_MUSIC,
+  NEXT_MUSIC,
+  SET_INDEX,
+  CHANGEMODE
+} from './mutation-types'
 
 Vue.use(Vuex)
 
@@ -19,7 +30,7 @@ export default new Vuex.Store({
       ar: []
     },
     musicList: [],
-    mode: '',
+    mode: 0, // 0 顺序 1 循环 2 随机
     curMusicIndex: 0
   },
   mutations: {
@@ -81,6 +92,9 @@ export default new Vuex.Store({
     [SET_INDEX] (state, index) {
       state.curMusicIndex = index
       state.curMusic = state.musicList[index]
+    },
+    [CHANGEMODE](state) {
+      state.mode = (state.mode + 1) % 3
     }
   },
   actions: {

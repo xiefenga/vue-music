@@ -12,6 +12,7 @@
       </div>
     </div>
     <playlist-content :tracks="songs" wrapper=".daily-rec" />
+    <el-backtop target=".daily-rec" :bottom="120"></el-backtop>
   </div>
 </template>
 

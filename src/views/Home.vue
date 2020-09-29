@@ -12,7 +12,6 @@
           <router-view></router-view>
         </keep-alive>
       </transition>
-      <el-backtop target=".content" :bottom="100" :visibility-height="200"></el-backtop>
     </div>
     <audio-player></audio-player>
   </div>
@@ -67,15 +66,10 @@ export default {
 
 <style lang="less" scoped>
 .main {
-  position: fixed;
-  width: 100%;
   height: 100%;
+  position: relative;
   header {
-    position: absolute;
-    left: 0;
-    top: 0;
     height: 60px;
-    width: 100%;
     background-color: #EBEEF5;
   }
 
@@ -93,7 +87,7 @@ export default {
     left: 300px;
     top: 60px;
     width: calc(100% - 300px);
-    height: calc(100% - 60px - 100px);
+    height: calc(100% - 60px - 100px - 10px);
     box-sizing: border-box;
     overflow: hidden;
     padding: 20px;
@@ -105,15 +99,6 @@ export default {
       padding: 0 50px 30px;
       overflow-x: hidden;
       overflow-y: auto;
-    }
-    .el-backtop {
-      position: fixed;
-      width: 50px;
-      height: 50px;
-      opacity: .8;
-      &:hover {
-        opacity: 1;
-      }
     }
   }
   .audio-player {

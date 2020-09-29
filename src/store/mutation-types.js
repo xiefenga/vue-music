@@ -15,3 +15,5 @@ export const ADD_MUSIC = 'ADD_MUSIC'
 export const NEXT_MUSIC = 'NEXT_MUSIC'
 
 export const SET_INDEX = 'SET_INDEX'
+
+export const CHANGEMODE = 'CHANGEMODE'
